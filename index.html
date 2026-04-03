@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Helixa â GLP-1 Intelligence</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  
+  :root {
+    --bg: #06060A;
+    --surface: #0E0E14;
+    --card: #14141E;
+    --border: rgba(255,255,255,0.06);
+    --emerald: #34D399;
+    --emerald-dim: rgba(52,211,153,0.12);
+    --text: #FAFAFA;
+    --text-muted: #A1A1AA;
+    --text-dim: #52525B;
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Hero glow effect */
+  .hero-glow {
+    position: absolute;
+    top: -200px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 800px;
+    height: 600px;
+    background: radial-gradient(ellipse at center, rgba(52,211,153,0.08) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Navigation */
+  nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 20px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    background: rgba(6,6,10,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: var(--text);
+  }
+
+  .logo span {
+    color: var(--emerald);
+  }
+
+  nav a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.2s;
+  }
+
+  nav a:hover { color: var(--emerald); }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+  }
+
+  .btn-download {
+    background: var(--emerald);
+    color: #000;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    text-decoration: none;
+    transition: all 0.2s;
+  }
+
+  .btn-download:hover {
+    background: #2dd4a0;
+    transform: translateY(-1px);
+  }
+
+  /* Hero Section */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 120px 24px 80px;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--emerald-dim);
+    border: 1px solid rgba(52,211,153,0.2);
+    border-radius: 100px;
+    padding: 8px 20px;
+    font-size: 13px;
+    color: var(--emerald);
+    margin-bottom: 32px;
+    animation: fadeInUp 0.6s ease;
+  }
+
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--emerald);
+    animation: pulse 2s infinite;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(40px, 7vw, 72px);
+    font-weight: 600;
+    line-height: 1.1;
+    max-width: 800px;
+    margin-bottom: 24px;
+    animation: fadeInUp 0.6s ease 0.1s both;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--emerald);
+  }
+
+  .hero-sub {
+    font-size: 18px;
+    color: var(--text-muted);
+    max-width: 560px;
+    line-height: 1.7;
+    margin-bottom: 48px;
+    animation: fadeInUp 0.6s ease 0.2s both;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    justify-content: center;
+    animation: fadeInUp 0.6s ease 0.3s both;
+  }
+
+  .btn-primary {
+    background: var(--emerald);
+    color: #000;
+    padding: 16px 40px;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 16px;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn-primary:hover {
+    background: #2dd4a0;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(52,211,153,0.2);
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: var(--text);
+    padding: 16px 40px;
+    border-radius: 12px;
+    font-weight: 500;
+    font-size: 16px;
+    text-decoration: none;
+    border: 1px solid var(--border);
+    transition: all 0.2s;
+  }
+
+  .btn-secondary:hover {
+    border-color: var(--text-dim);
+    background: var(--surface);
+  }
+
+  .trust-bar {
+    display: flex;
+    gap: 32px;
+    margin-top: 64px;
+    flex-wrap: wrap;
+    justify-content: center;
+    animation: fadeInUp 0.6s ease 0.5s both;
+  }
+
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+
+  .trust-item svg {
+    width: 16px;
+    height: 16px;
+    fill: var(--emerald);
+    opacity: 0.7;
+  }
+
+  /* Features Section */
+  .section {
+    padding: 100px 24px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 12px;
+    letter-spacing: 3px;
+    color: var(--emerald);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 600;
+    margin-bottom: 16px;
+  }
+
+  .section-sub {
+    font-size: 16px;
+    color: var(--text-muted);
+    max-width: 600px;
+    line-height: 1.7;
+    margin-bottom: 60px;
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+
+  .feature-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    transition: all 0.3s;
+  }
+
+  .feature-card:hover {
+    border-color: rgba(52,211,153,0.15);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  }
+
+  .feature-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: var(--emerald-dim);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    margin-bottom: 20px;
+  }
+
+  .feature-card h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .feature-card p {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  .feature-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-top: 12px;
+  }
+
+  .badge-free {
+    background: rgba(52,211,153,0.12);
+    color: var(--emerald);
+  }
+
+  .badge-ai {
+    background: rgba(139,92,246,0.12);
+    color: #A78BFA;
+  }
+
+  .badge-unique {
+    background: rgba(245,158,11,0.12);
+    color: #F59E0B;
+  }
+
+  /* Comparison Section */
+  .comparison {
+    background: var(--surface);
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    padding: 48px;
+    margin-top: 40px;
+    overflow-x: auto;
+  }
+
+  .comparison table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px;
+  }
+
+  .comparison th {
+    text-align: left;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--text-dim);
+    font-weight: 500;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .comparison th:last-child {
+    color: var(--emerald);
+    font-weight: 700;
+  }
+
+  .comparison td {
+    padding: 14px 16px;
+    font-size: 14px;
+    border-bottom: 1px solid var(--border);
+    color: var(--text-muted);
+  }
+
+  .comparison tr:last-child td { border-bottom: none; }
+
+  .check { color: var(--emerald); font-weight: 700; font-size: 16px; }
+  .cross { color: #EF4444; opacity: 0.5; }
+  .paid { color: #F59E0B; font-size: 12px; }
+
+  /* Stats Bar */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    margin: 80px 0;
+  }
+
+  .stat {
+    background: var(--surface);
+    padding: 40px 32px;
+    text-align: center;
+  }
+
+  .stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--emerald);
+    margin-bottom: 4px;
+  }
+
+  .stat-label {
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+
+  /* Privacy Section */
+  .privacy-section {
+    text-align: center;
+    padding: 80px 24px;
+  }
+
+  .privacy-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 24px;
+    max-width: 900px;
+    margin: 40px auto 0;
+  }
+
+  .privacy-item {
+    padding: 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+  }
+
+  .privacy-item h4 {
+    font-size: 15px;
+    margin-bottom: 6px;
+  }
+
+  .privacy-item p {
+    font-size: 13px;
+    color: var(--text-dim);
+    line-height: 1.5;
+  }
+
+  /* CTA Section */
+  .cta-section {
+    text-align: center;
+    padding: 100px 24px;
+    position: relative;
+  }
+
+  .cta-glow {
+    position: absolute;
+    bottom: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 400px;
+    background: radial-gradient(ellipse at center, rgba(52,211,153,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* Footer */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 40px 24px;
+    text-align: center;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 32px;
+    justify-content: center;
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+
+  .footer-links a {
+    color: var(--text-dim);
+    text-decoration: none;
+    font-size: 13px;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: var(--text); }
+
+  .footer-copy {
+    font-size: 12px;
+    color: var(--text-dim);
+    opacity: 0.6;
+  }
+
+  /* Privacy Policy Page (linked) */
+  .privacy-page {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 120px 24px 80px;
+  }
+
+  .privacy-page h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 28px;
+    margin: 32px 0 12px;
+  }
+
+  .privacy-page p {
+    font-size: 15px;
+    color: var(--text-muted);
+    line-height: 1.8;
+    margin-bottom: 16px;
+  }
+
+  /* Animations */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  /* Mobile */
+  @media (max-width: 768px) {
+    nav { padding: 16px 20px; }
+    .nav-links { display: none; }
+    .hero { padding: 100px 20px 60px; }
+    .section { padding: 60px 20px; }
+    .comparison { padding: 24px; }
+    .trust-bar { gap: 20px; }
+    .stats-bar { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav>
+  <div class="logo">Helixa<span>.</span></div>
+  <div class="nav-links">
+    <a href="#features">Features</a>
+    <a href="#compare">Compare</a>
+    <a href="#privacy">Privacy</a>
+    <a href="#contact">Support</a>
+    <a href="#download" class="btn-download">Download Free</a>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-glow"></div>
+  
+  <div class="badge">
+    <div class="badge-dot"></div>
+    AI-Powered GLP-1 Companion
+  </div>
+  
+  <h1>Your GLP-1 journey, <em>finally understood.</em></h1>
+  
+  <p class="hero-sub">
+    Helixa uses pharmacokinetic modeling and clinical AI to track your medication, predict your progress, and coach you through every week of your GLP-1 journey.
+  </p>
+  
+  <div class="hero-cta">
+    <a href="#download" class="btn-primary">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+      Download for Android
+    </a>
+    <a href="#features" class="btn-secondary">See What's Inside</a>
+  </div>
+  
+  <div class="trust-bar">
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Private & Encrypted
+    </div>
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+      Based on Clinical Research
+    </div>
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+      AI-Powered Insights
+    </div>
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2"/></svg>
+      100% Free
+    </div>
+  </div>
+</section>
+
+<!-- Features -->
+<section class="section" id="features">
+  <div class="section-label">Features</div>
+  <h2 class="section-title">Everything your medication journey needs. Nothing it doesn't.</h2>
+  <p class="section-sub">Built by people who understand what it's like to be on GLP-1 medication. Every feature solves a real problem.</p>
+  
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="feature-icon">ð</div>
+      <h3>Real-Time Medication Levels</h3>
+      <p>See exactly how much medication is in your system right now. Based on peer-reviewed pharmacokinetic half-life data for semaglutide and tirzepatide.</p>
+      <span class="feature-badge badge-free">Free â competitors charge $50/yr</span>
+    </div>
+    
+    <div class="feature-card">
+      <div class="feature-icon">ð¤</div>
+      <h3>AI Wellness Coach</h3>
+      <p>Chat with an AI that knows your medication, dose, week number, side effects, and weight history. Get personalized guidance, not generic answers.</p>
+      <span class="feature-badge badge-ai">AI-Powered</span>
+    </div>
+    
+    <div class="feature-card">
+      <div class="feature-icon">ð¬</div>
+      <h3>Clinical Trial Comparison</h3>
+      <p>"Am I normal?" â see how your progress compares to published clinical trial data for your specific medication and dose band.</p>
+      <span class="feature-badge badge-unique">Only on Helixa</span>
+    </div>
+    
+    <div class="feature-card">
+      <div class="feature-icon">ð</div>
+      <h3>Smart Injection Rotation</h3>
+      <p>Anatomical site guide with clinical priority ordering. Tracks which sites need rest and recommends your next injection zone.</p>
+    </div>
+    
+    <div class="feature-card">
+      <div class="feature-icon">ð§ </div>
+      <h3>AI Pattern Detection</h3>
+      <p>"Your nausea peaks on day 3 after injection." Helixa finds patterns in your data that you'd never spot on your own.</p>
+      <span class="feature-badge badge-ai">AI-Powered</span>
+    </div>
+    
+    <div class="feature-card">
+      <div class="feature-icon">ð</div>
+      <h3>Doctor-Ready Reports</h3>
+      <p>Generate a professional PDF treatment summary with your injection history, weight trends, and side effects â ready for your next appointment.</p>
+    </div>
+    
+    <div class="feature-card">
+      <div class="feature-icon">ð</div>
+      <h3>Multi-Medication Tracking</h3>
+      <p>Track Ozempic + Metformin + supplements simultaneously. Separate medication level curves for each. No other app does this.</p>
+      <span class="feature-badge badge-unique">Only on Helixa</span>
+    </div>
+    
+    <div class="feature-card">
+      <div class="feature-icon">ð¸</div>
+      <h3>Shareable Progress Cards</h3>
+      <p>Beautiful transformation cards showing your weight loss, week count, and progress. Share directly to Instagram, TikTok, or WhatsApp.</p>
+    </div>
+    
+    <div class="feature-card">
+      <div class="feature-icon">ð</div>
+      <h3>Milestones & Achievements</h3>
+      <p>14 unlockable badges, streaks with freeze protection, XP leveling system, and confetti celebrations at every milestone.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Comparison -->
+<section class="section" id="compare">
+  <div class="section-label">Comparison</div>
+  <h2 class="section-title">Why users are switching to Helixa</h2>
+  <p class="section-sub">We built every feature people asked for in competitor app reviews â and made the premium features free.</p>
+  
+  <div class="comparison">
+    <table>
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Shotsy</th>
+          <th>Glapp</th>
+          <th>MeAgain</th>
+          <th>Helixa</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Medication level chart</td><td><span class="paid">$49.99/yr</span></td><td><span class="check">â</span></td><td><span class="cross">â</span></td><td><span class="check">â Free</span></td></tr>
+        <tr><td>AI Coach</td><td><span class="cross">â</span></td><td><span class="cross">â</span></td><td><span class="cross">â</span></td><td><span class="check">â</span></td></tr>
+        <tr><td>Pattern detection</td><td><span class="cross">â</span></td><td><span class="cross">â</span></td><td><span class="cross">â</span></td><td><span class="check">â</span></td></tr>
+        <tr><td>Multi-medication</td><td><span class="cross">â</span></td><td><span class="cross">â</span></td><td><span class="cross">â</span></td><td><span class="check">â</span></td></tr>
+        <tr><td>Clinical comparison</td><td><span class="cross">â</span></td><td><span class="cross">â</span></td><td><span class="cross">â</span></td><td><span class="check">â</span></td></tr>
+        <tr><td>Transformation cards</td><td><span class="cross">â</span></td><td><span class="cross">â</span></td><td><span class="cross">â</span></td><td><span class="check">â</span></td></tr>
+        <tr><td>Doctor PDF report</td><td><span class="cross">â</span></td><td><span class="cross">â</span></td><td><span class="cross">â</span></td><td><span class="check">â</span></td></tr>
+        <tr><td>Streaks & achievements</td><td><span class="cross">â</span></td><td><span class="cross">â</span></td><td><span class="cross">â</span></td><td><span class="check">â</span></td></tr>
+        <tr><td>Android support</td><td><span class="check">â</span></td><td><span class="cross">â</span></td><td><span class="cross">â</span></td><td><span class="check">â</span></td></tr>
+        <tr><td>Price</td><td>$49.99/yr</td><td>Free</td><td>$4.99/wk</td><td><strong style="color:var(--emerald)">Free</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- Stats -->
+<section class="section">
+  <div class="stats-bar">
+    <div class="stat">
+      <div class="stat-number">21+</div>
+      <div class="stat-label">Features built</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number">5</div>
+      <div class="stat-label">Medications supported</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number">14</div>
+      <div class="stat-label">Achievements to unlock</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number">$0</div>
+      <div class="stat-label">Cost. Forever free.</div>
+    </div>
+  </div>
+</section>
+
+<!-- Privacy -->
+<section class="privacy-section" id="privacy">
+  <div class="section-label">Privacy First</div>
+  <h2 class="section-title">Your health data stays yours.</h2>
+  
+  <div class="privacy-grid">
+    <div class="privacy-item">
+      <h4>ð Encrypted Storage</h4>
+      <p>All data encrypted at rest and in transit using industry-standard encryption.</p>
+    </div>
+    <div class="privacy-item">
+      <h4>ð« No Data Sales</h4>
+      <p>We never sell, share, or monetize your health data. Period.</p>
+    </div>
+    <div class="privacy-item">
+      <h4>ðï¸ Delete Anytime</h4>
+      <p>Full account deletion available at any time. Your data is completely removed.</p>
+    </div>
+    <div class="privacy-item">
+      <h4>ð¡ï¸ Row-Level Security</h4>
+      <p>Database-level access controls ensure only you can access your data.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="download">
+  <div class="cta-glow"></div>
+  <div class="section-label">Get Started</div>
+  <h2 class="section-title" style="max-width:600px;margin:0 auto 16px;">Start tracking smarter today.</h2>
+  <p class="section-sub" style="margin:0 auto 40px;">Free forever. No credit card. No trial period. Just better GLP-1 tracking.</p>
+  <a href="#" class="btn-primary" style="font-size:18px;padding:18px 48px;">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+    Download for Android
+  </a>
+  <p style="margin-top:16px;font-size:13px;color:var(--text-dim);">iOS coming soon</p>
+</section>
+
+<!-- Contact -->
+<section class="section" id="contact" style="text-align:center;padding:60px 24px;">
+  <h2 class="section-title">Need help?</h2>
+  <p class="section-sub" style="margin:0 auto 24px;">Our support team is here for you.</p>
+  <a href="mailto:support@helixa.app" style="color:var(--emerald);font-size:18px;text-decoration:none;">support@helixa.app</a>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-links">
+    <a href="#features">Features</a>
+    <a href="#compare">Compare</a>
+    <a href="/privacy">Privacy Policy</a>
+    <a href="/terms">Terms of Service</a>
+    <a href="mailto:support@helixa.app">Contact</a>
+  </div>
+  <p class="footer-copy">Â© 2026 Helixa Health. All rights reserved. Not medical advice. Consult your healthcare provider.</p>
+  <p class="footer-copy" style="margin-top:8px;">OzempicÂ®, WegovyÂ®, MounjaroÂ®, and ZepboundÂ® are registered trademarks of their respective owners.</p>
+</footer>
+
+</body>
+</html>
